@@ -1,9 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let currentQuizIndex = 0;
-    let totalReward = 0;
+    let currentQuizIndex = parseInt(localStorage.getItem('currentQuizIndex')) || 0;
+    let totalReward = parseFloat(localStorage.getItem('totalReward')) || 0;
     const maxTotalReward = 504.64;
 
-    // Valores pré-definidos para cada modal (soma total = 504.64)
+    const wasShowingFinal = localStorage.getItem('showingFinal') === 'true';
+    if (wasShowingFinal) {
+        currentQuizIndex = 0;
+        totalReward = 0;
+        localStorage.clear();
+    }
+
+    function animateNumber(element, start, end, duration = 1000) {
+        const startTime = performance.now();
+        const startValue = parseFloat(start);
+        const endValue = parseFloat(end);
+        const change = endValue - startValue;
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Easing function for smooth animation
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            const currentValue = startValue + (change * easeOutQuart);
+
+            element.textContent = `R$${currentValue.toFixed(2)}`;
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    const totalRewardElement = document.getElementById('total-reward');
+    animateNumber(totalRewardElement, 0, totalReward);
+
     const rewards = [64.22, 58.50, 72.30, 65.80, 70.10, 68.90, 60.42, 44.40];
 
     const companies = [
@@ -73,39 +106,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    // Atualiza a barra de progresso
     function updateProgress() {
         const progress = document.getElementById('progress');
         const percentage = (currentQuizIndex / companies.length) * 100;
         progress.style.width = `${percentage}%`;
     }
 
-    // Atualiza o valor total da recompensa exibido na tela
     function updateTotalReward() {
-        document.getElementById('total-reward').textContent = `R$${totalReward.toFixed(2)}`;
+        const totalRewardElement = document.getElementById('total-reward');
+        const previousValue = parseFloat(totalRewardElement.textContent.replace('R$', ''));
+        animateNumber(totalRewardElement, previousValue, totalReward);
+        localStorage.setItem('totalReward', totalReward.toString());
     }
 
-    // Exibe o modal de recompensa
     function showRewardModal(reward) {
         const modal = document.getElementById('reward-modal');
-        document.getElementById('modal-reward-amount').textContent = reward.toFixed(2);
+        const rewardElement = document.getElementById('modal-reward-amount');
         modal.style.display = 'flex';
+        animateNumber(rewardElement, 0, reward, 1500);
     }
 
-    // Exibe o modal de parabéns
     function showFinalModal() {
         const modal = document.getElementById('final-modal');
-        document.getElementById('final-amount').textContent = totalReward.toFixed(2);
+        const finalAmountElement = document.getElementById('final-amount');
         modal.style.display = 'flex';
+        animateNumber(finalAmountElement, 0, totalReward, 2000);
+        localStorage.setItem('showingFinal', 'true');
     }
 
-    // Fecha todos os modais
     function hideModals() {
         document.getElementById('reward-modal').style.display = 'none';
         document.getElementById('final-modal').style.display = 'none';
     }
 
-    // Renderiza o quiz atual
     function renderQuiz(company) {
         const quizContent = document.getElementById('quiz-content');
         quizContent.innerHTML = `
@@ -185,28 +218,34 @@ document.addEventListener('DOMContentLoaded', () => {
         const continueButton = quizContent.querySelector('.continue-btn');
         let selectedOption = null;
 
-        optionButtons.forEach(button => {
+        const savedSelection = localStorage.getItem(`quiz_${currentQuizIndex}_selection`);
+        if (savedSelection !== null) {
+            optionButtons[parseInt(savedSelection)].classList.add('selected');
+            selectedOption = optionButtons[parseInt(savedSelection)];
+            continueButton.disabled = false;
+        }
+
+        optionButtons.forEach((button, index) => {
             button.addEventListener('click', () => {
                 optionButtons.forEach(btn => btn.classList.remove('selected'));
                 button.classList.add('selected');
                 selectedOption = button;
                 continueButton.disabled = false;
+                localStorage.setItem(`quiz_${currentQuizIndex}_selection`, index.toString());
             });
         });
 
         continueButton.addEventListener('click', () => {
             if (selectedOption) {
-                const reward = rewards[currentQuizIndex]; // Pega o valor pré-definido
+                const reward = rewards[currentQuizIndex];
                 totalReward += reward;
                 updateTotalReward();
 
                 const isLastQuiz = currentQuizIndex === companies.length - 1;
 
                 if (isLastQuiz) {
-                    // No último quiz, exibe o modal de "Você ganhou" e depois o de "Parabéns"
                     showRewardModal(reward);
                 } else {
-                    // Nos quizzes anteriores, exibe apenas o modal de "Você ganhou"
                     showRewardModal(reward);
                 }
             }
@@ -215,14 +254,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgress();
     }
 
-    // Event listeners para os botões dos modais
     document.querySelector('.continue-modal-btn').addEventListener('click', () => {
         hideModals();
         currentQuizIndex++;
+        localStorage.setItem('currentQuizIndex', currentQuizIndex.toString());
         if (currentQuizIndex < companies.length) {
             renderQuiz(companies[currentQuizIndex]);
         } else {
-            // Após o último modal de "Você ganhou", exibe o modal de "Parabéns"
             showFinalModal();
         }
     });
@@ -230,19 +268,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.withdraw-btn').addEventListener('click', () => {
         alert('Parabéns! Seu saque será processado em breve.');
         hideModals();
+        localStorage.clear();
     });
 
     document.querySelector('.close-modal').addEventListener('click', () => {
         hideModals();
         currentQuizIndex++;
+        localStorage.setItem('currentQuizIndex', currentQuizIndex.toString());
         if (currentQuizIndex < companies.length) {
             renderQuiz(companies[currentQuizIndex]);
         } else {
-            // Após o último modal de "Você ganhou", exibe o modal de "Parabéns"
             showFinalModal();
         }
     });
 
-    // Inicializa o primeiro quiz
-    renderQuiz(companies[0]);
+    renderQuiz(companies[currentQuizIndex]);
 });
