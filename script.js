@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Toyota',
             verified: true,
-            image: 'Toyota-170.png',
+            image: 'toyota-170.png',
             productImage: 'ca-7b2f-4ce3-8eb5-64d785f59fe3.jpeg',
             likes: '15.1k',
             question: 'Qual sua opinião sobre os carros da Toyota?'
