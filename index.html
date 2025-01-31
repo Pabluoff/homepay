@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz HomePay</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <img src="https://payhomeapp.store/wp-content/uploads/2025/01/homepay.svg" alt="HomePay" class="logo">
+        <div class="reward-button">
+            <span id="total-reward">R$0</span>
+            <button class="sacar-btn" id="sacar-btn">SACAR</button>
+        </div>
+    </header>
+
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <div class="quiz-container">
+        <div id="quiz-content"></div>
+    </div>
+
+    <div class="modal" id="reward-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova recompensa</h2>
+                <button class="close-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="reward-check">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#4CAF50"/>
+                    <path d="M16 9L10.5 14.5L8 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div class="reward-text">
+                <h3>Você ganhou</h3>
+                <div class="reward-amount">R$ <span id="modal-reward-amount">100</span></div>
+            </div>
+            <p class="reward-info">Responda mais pesquisas para ganhar até R$850</p>
+            <button class="continue-modal-btn">Clique para continuar</button>
+        </div>
+    </div>
+
+    <div class="modal" id="final-modal">
+        <div class="modal-content final">
+            <div class="final-check">
+                <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            <h2>Parabéns!</h2>
+            <div class="final-reward">
+                <h3>Você completou todas as pesquisas!</h3>
+                <div class="final-amount">R$ <span id="final-amount">0</span></div>
+            </div>
+            <button class="withdraw-btn">Sacar meu dinheiro</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
