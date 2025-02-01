@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desbloqueio de Saldo - HomePay</title>
-    <link rel="stylesheet" href="css/lock.css">
+    <link rel="stylesheet" href="/css/lock.css">
     <link rel="preload"
         href="https://scripts.converteai.net/ac126580-0731-4f45-9424-c0e1a1514295/players/679d40182c9c7989a0a500c0/player.js"
         as="script">
@@ -85,19 +85,74 @@
             <div class="modal-header">
                 <h2>AVISO</h2>
                 <button class="close-modal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Não é possível realizar o saque do valor ainda. É necessário prosseguir com a pesquisa e cadastrar sua chave pix!</p>
+                <p>Não é possível realizar o saque do valor ainda. É necessário prosseguir com a pesquisa e cadastrar
+                    sua chave pix!</p>
             </div>
             <button class="continue-modal-btn">Entendi</button>
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function animateNumber(element, start, end, duration = 1000) {
+                const startTime = performance.now();
+                const startValue = parseFloat(start);
+                const endValue = parseFloat(end);
+                const change = endValue - startValue;
+
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                    const currentValue = startValue + (change * easeOutQuart);
+
+                    element.textContent = `R$${currentValue.toFixed(2)}`;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    }
+                }
+
+                requestAnimationFrame(update);
+            }
+
+            const totalRewardElement = document.getElementById('total-reward');
+            const totalReward = parseFloat(totalRewardElement.textContent.replace('R$', '')) || 0;
+            animateNumber(totalRewardElement, 0, totalReward);
+
+            const sacarModal = document.getElementById('sacar-modal');
+            const sacarBtn = document.querySelector('.sacar-btn');
+            const closeModalBtn = document.querySelector('#sacar-modal .close-modal');
+            const continueModalBtn = document.querySelector('#sacar-modal .continue-modal-btn');
+
+            sacarBtn.addEventListener('click', () => {
+                sacarModal.style.display = 'flex';
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                sacarModal.style.display = 'none';
+            });
+
+            continueModalBtn.addEventListener('click', () => {
+                sacarModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === sacarModal) {
+                    sacarModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

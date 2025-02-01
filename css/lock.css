@@ -278,3 +278,29 @@ h1 {
     font-size: 1rem;
     margin-bottom: 16px;
 }
+
+.continue-modal-btn {
+    background: #FFD700;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #000;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.continue-modal-btn:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 500px) {
+    
+    .modal-content {
+        width: 94%;
+        padding: 0;
+    }
+}
+
