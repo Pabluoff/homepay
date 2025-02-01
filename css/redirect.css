@@ -109,17 +109,38 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.original-price {
+    font-size: 1.1rem;
+    color: #666;
+    text-decoration: line-through;
+}
+
+.discount-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1f2c;
+}
+
 .cta-button {
-    width: 80%;
+    display: block;
     background: #ffd60a;
     border: none;
     padding: 12px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: rgb(0, 0, 0);
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
 }
 
 .cta-button:hover {

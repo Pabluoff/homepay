@@ -20,8 +20,7 @@
             <p class="balance-label">Seu Saldo</p>
             <div class="balance-row">
                 <h2 class="balance-amount" id="balanceAmount">R$0.00</h2>
-                <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="lock-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                 </svg>
@@ -32,9 +31,13 @@
         <div class="offer">
             <h1>Oferta exclusiva só para você!</h1>
             <h2>Essa é sua ULTIMA oportunidade! <br> Depois disso, o acesso será fechado!</h2>
-            <button class="cta-button" id="redirectButton">
+            <div class="price-container">
+                <span class="original-price">De R$39,97</span>
+                <span class="discount-price">Por R$19,97</span>
+            </div>
+            <a href="/taxa.html" class="cta-button" id="redirectButton">
                 Garantir Oferta
-            </button>
+            </a>
         </div>
 
         <div class="reconsider">
@@ -76,8 +79,6 @@
             const balanceAmountElement = document.getElementById('balanceAmount');
             animateNumber(balanceAmountElement, 0, 504.64);
 
-            const redirectButton = document.getElementById('redirectButton');
-            redirectButton.addEventListener('click', handleRedirect);
         });
 
     </script>
