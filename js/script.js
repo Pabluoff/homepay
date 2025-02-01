@@ -274,5 +274,21 @@ document.addEventListener('DOMContentLoaded', () => {
         hideModals();
     });
 
+    document.getElementById('sacar-btn').addEventListener('click', () => {
+        const sacarModal = document.getElementById('sacar-modal');
+        sacarModal.style.display = 'flex';
+    });
+
+    document.querySelector('#sacar-modal .continue-modal-btn').addEventListener('click', () => {
+        const sacarModal = document.getElementById('sacar-modal');
+        sacarModal.style.display = 'none';
+    });
+
+    document.querySelector('#sacar-modal .close-modal').addEventListener('click', () => {
+        const sacarModal = document.getElementById('sacar-modal');
+        sacarModal.style.display = 'none';
+    });
+
+
     renderQuiz(companies[currentQuizIndex]);
 });
