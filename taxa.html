@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taxa de Saque</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/taxa.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <!-- Back Button -->
+            <button class="back-button" onclick="history.back()">
+                <i data-lucide="arrow-left"></i>
+                Voltar
+            </button>
+
+            <!-- Header -->
+            <div class="header">
+                <h1>Taxa de cadastro</h1>
+                <i data-lucide="help-circle"></i>
+            </div>
+            <div class="card registration-fee">
+                <h3>Banco Central do Brasil</h3>
+                <p>
+                    Seguindo as diretrizes do Banco Central do Brasil, solicitamos uma confirmação de identidade de R$
+                    39,97 para garantir a autenticidade dos participantes.
+                </p>
+                <p>
+                    O dinheiro será totalmente reembolsado entre 1 a 5 minutos junto ao saldo acumulado.
+                </p>
+            </div>
+            <!-- Fee Card -->
+            <div class="card">
+                <h3>Detalhes do saque</h3>
+
+                <div class="fee-details">
+                    <div class="fee-row">
+                        <span>Valor do saque</span>
+                        <span id="withdrawalAmount">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row">
+                        <span>Taxa de cadastro</span>
+                        <span id="processingFee">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row total">
+                        <span>Total a receber</span>
+                        <span id="totalAmount">R$ 0,00</span>
+                    </div>
+                </div>
+
+                <button class="submit-btn">Realizar Saque</button>
+            </div>
+
+            <!-- Info Card -->
+            <div class="card instructions">
+                <h3>Informações importantes</h3>
+                <p>
+                    O valor será transferido para a chave PIX informada em até 5 minutos.
+                    Você receberá uma notificação quando a transferência for concluída.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(value);
+        }
+
+        const withdrawalData = JSON.parse(sessionStorage.getItem('withdrawalData'));
+
+        if (!withdrawalData) {
+            window.location.href = '/';
+        }
+
+        const amount = parseFloat(withdrawalData.amount.replace(',', '.')); 
+        const processingFee = 39.97; 
+        const totalAmount = amount;
+
+        document.getElementById('withdrawalAmount').textContent = formatCurrency(amount);
+        document.getElementById('processingFee').textContent = formatCurrency(processingFee);
+        document.getElementById('totalAmount').textContent = formatCurrency(totalAmount);
+
+        document.querySelector('.submit-btn').addEventListener('click', async () => {
+            const button = document.querySelector('.submit-btn');
+            const originalText = button.textContent;
+
+            button.classList.add('loading');
+            button.disabled = true;
+
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            } catch (error) {
+                button.classList.remove('loading');
+                button.disabled = false;
+                button.textContent = originalText;
+
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = 'Erro ao confirmar o saque. Tente novamente.';
+                document.body.appendChild(notification);
+            }
+        });
+    </script>
+</body>
+
+</html>

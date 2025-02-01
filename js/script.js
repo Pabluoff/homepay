@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.querySelector('.withdraw-btn').addEventListener('click', () => {
-        window.location.href = './lock';
+        window.location.href = '/lock.html';
     });
 
     document.querySelector('.close-modal').addEventListener('click', () => {

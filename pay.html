@@ -1,0 +1,90 @@
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resgatar Recompensas</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/pay.css">
+</head>
+<body>
+  <div class="container">
+    <div class="content">
+      <!-- Header -->
+      <div class="header">
+        <h1>Resgatar recompensas</h1>
+        <i data-lucide="help-circle"></i>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="balance-card">
+        <p class="balance-label">Seu Saldo</p>
+        <div class="balance-row">
+          <h2 class="balance-amount">R$504.64</h2>
+          <div class="coin">P</div>
+        </div>
+        <p class="last-rewards">Última recompensa: R$ 44,40</p>
+      </div>
+
+      <!-- Withdraw Section -->
+      <div class="card">
+        <h3>Sacar dinheiro</h3>
+        
+        <div class="transfer-method">
+          <i data-lucide="credit-card"></i>
+          <span>Transferência bancária / </span>
+          <span class="pix-text">pix</span>
+        </div>
+
+        <!-- Amount Buttons -->
+        <div class="amount-grid">
+          <button class="amount-btn" data-amount="1,5">R$1,5</button>
+          <button class="amount-btn" data-amount="5">R$5</button>
+          <button class="amount-btn" data-amount="10">R$10</button>
+          <button class="amount-btn selected" data-amount="504.64">R$504.64</button>
+        </div>
+
+        <!-- PIX Input Fields -->
+        <div class="input-group">
+          <select id="keyType">
+            <option value="">Selecione o tipo de chave</option>
+            <option value="cpf">CPF</option>
+            <option value="email">E-mail</option>
+            <option value="phone">Telefone</option>
+          </select>
+          <input 
+            type="text" 
+            id="pixKey" 
+            placeholder="Digite a sua chave PIX"
+          >
+        </div>
+
+        <!-- Submit Button -->
+        <button class="submit-btn">Realizar Saque</button>
+
+        <!-- Info Text -->
+        <p class="info-text">
+          Para sacar o seu dinheiro, você precisa de um saldo mínimo de R$ 1,50.
+          Os limites de saque para transações individuais e mensais podem variar
+          conforme o país ou a região.
+        </p>
+      </div>
+
+      <!-- How to Withdraw -->
+      <div class="card instructions">
+        <h3>Como retirar o dinheiro?</h3>
+        <p>
+          Insira sua chave PIX, escolha o valor e clique em 'Sacar' dinheiro.
+        </p>
+      </div>
+
+      <!-- Terms -->
+      <p class="terms">
+        Ao continuar, você concorda com os <strong>Termos e Condições</strong> do HomePay.
+      </p>
+    </div>
+  </div>
+
+  <script src="js/pay.js"></script>
+</body>
+</html>
