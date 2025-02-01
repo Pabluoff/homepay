@@ -140,13 +140,29 @@ h1 {
     transform: scale(0.98);
 }
 
-
 .bonus {
     text-align: center;
     color: #4CAF50;
-    margin-top: 24px;
-    font-weight: 500;
-    font-size: 1.1rem;
+    margin: 20px auto;
+    font-weight: bold;
+    max-width: 500px;
+    padding: 0 16px;
+}
+
+.terms {
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgb(0, 0, 0);
+    line-height: 1.4;
+    margin: 20px auto;
+    max-width: 500px;
+    padding: 0 16px;
+}
+
+.terms a {
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 @media (max-width: 480px) {

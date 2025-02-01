@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     let currentQuizIndex = parseInt(localStorage.getItem('currentQuizIndex')) || 0;
     let totalReward = parseFloat(localStorage.getItem('totalReward')) || 0;
-    const maxTotalReward = 504.64;
+    let isProcessingReward = false;
+
+    const rewardSound = new Audio('./src/ding.mp3');
 
     const wasShowingFinal = localStorage.getItem('showingFinal') === 'true';
     if (wasShowingFinal) {
@@ -20,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
 
-            // Easing function for smooth animation
             const easeOutQuart = 1 - Math.pow(1 - progress, 4);
             const currentValue = startValue + (change * easeOutQuart);
 
@@ -43,64 +44,64 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Apple',
             verified: true,
-            image: 'historia-do-logotipo-da-apple-tudo-sobre-o-apple-logo-evolution-5-1024x683.jpg',
-            productImage: 'Imagem-do-WhatsApp-de-2025-01-16-as-06.40.03_cd80f5d4.jpg',
+            image: './src/historia-do-logotipo-da-apple-tudo-sobre-o-apple-logo-evolution-5-1024x683.jpg',
+            productImage: './src/Imagem-do-WhatsApp-de-2025-01-16-as-06.40.03_cd80f5d4.jpg',
             likes: '9.7k',
             question: 'Qual é a sua avaliação sobre os produtos da Apple?'
         },
         {
             name: 'Nubank',
             verified: true,
-            image: 'nubank-logo-2-1.png',
-            productImage: '1713457656-2-dobra-home-mobile.jpg',
+            image: './src/nubank-logo-2-1.png',
+            productImage: './src/1713457656-2-dobra-home-mobile.jpg',
             likes: '12.3k',
             question: 'Como você avalia os serviços do Nubank?'
         },
         {
             name: 'Toyota',
             verified: true,
-            image: 'toyota-170.png',
-            productImage: 'ca-7b2f-4ce3-8eb5-64d785f59fe3.jpeg',
-            likes: '15.1k', 
+            image: './src/toyota-170.png',
+            productImage: './src/ca-7b2f-4ce3-8eb5-64d785f59fe3.jpeg',
+            likes: '15.1k',
             question: 'Qual sua opinião sobre os carros da Toyota?'
         },
         {
             name: 'Meta',
             verified: true,
-            image: 'meeeb0bacadee2847ccf95730127a1c8cb0.jpg',
-            productImage: 'meeeemiages.jpg',
+            image: './src/meeeb0bacadee2847ccf95730127a1c8cb0.jpg',
+            productImage: './src/meeeemiages.jpg',
             likes: '8.9k',
             question: 'Como você avalia os serviços Meta?'
         },
         {
             name: 'Uber',
             verified: true,
-            image: 'uber-logo-1-1.png',
-            productImage: 'aplicativos-de-transporte-uber.jpg',
+            image: './src/uber-logo-1-1.png',
+            productImage: './src/aplicativos-de-transporte-uber.jpg',
             likes: '11.2k',
             question: 'Qual sua experiência com os serviços uber?'
         },
         {
             name: 'McDonalds',
             verified: true,
-            image: 'mcdonal.png',
-            productImage: 'foodmcdona.jpg',
+            image: './src/mcdonal.png',
+            productImage: './src/foodmcdona.jpg',
             likes: '14.5k',
             question: 'Como você avalia os produtos McDonalds?'
         },
         {
             name: 'Bradesco',
             verified: true,
-            image: 'bradesco-logo-4.png',
-            productImage: 'bradesco-fachada.jpg',
+            image: './src/bradesco-logo-4.png',
+            productImage: './src/bradesco-fachada.jpg',
             likes: '10.8k',
             question: 'Qual sua avaliação sobre o Bradesco?'
         },
         {
             name: 'Netflix',
             verified: true,
-            image: 'Netflix-Symbol.png',
-            productImage: 'neflixx8hyqfilmepipoca.jpg',
+            image: './src/Netflix-Symbol.png',
+            productImage: './src/neflixx8hyqfilmepipoca.jpg',
             likes: '13.4k',
             question: 'Como você avalia os serviços da Netflix?'
         }
@@ -120,10 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showRewardModal(reward) {
+        if (isProcessingReward) return; 
+        isProcessingReward = true;
+
         const modal = document.getElementById('reward-modal');
         const rewardElement = document.getElementById('modal-reward-amount');
         modal.style.display = 'flex';
         animateNumber(rewardElement, 0, reward, 1500);
+
+        rewardSound.play();
     }
 
     function showFinalModal() {
@@ -132,11 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'flex';
         animateNumber(finalAmountElement, 0, totalReward, 2000);
         localStorage.setItem('showingFinal', 'true');
+
+        rewardSound.play();
     }
 
     function hideModals() {
         document.getElementById('reward-modal').style.display = 'none';
         document.getElementById('final-modal').style.display = 'none';
+        isProcessingReward = false;
     }
 
     function renderQuiz(company) {
@@ -204,14 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <button class="continue-btn" disabled>Continuar</button>
-
-            <div class="bonus">
-                <p>Concorra a um bônus adicional</p>
-            </div>
-
-            <div class="terms">
-                <p>Ao participar das atividades de recompensa, você concorda com nossos <a href="#">Termos e Condições</a></p>
-            </div>
         `;
 
         const optionButtons = quizContent.querySelectorAll('.option-btn');
@@ -236,50 +237,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         continueButton.addEventListener('click', () => {
-            if (selectedOption) {
+            if (selectedOption && !isProcessingReward) {
                 const reward = rewards[currentQuizIndex];
-                totalReward += reward;
-                updateTotalReward();
+                showRewardModal(reward);
 
-                const isLastQuiz = currentQuizIndex === companies.length - 1;
+                const continueModalButton = document.querySelector('.continue-modal-btn');
+                const newContinueModalButton = continueModalButton.cloneNode(true);
+                continueModalButton.parentNode.replaceChild(newContinueModalButton, continueModalButton);
 
-                if (isLastQuiz) {
-                    showRewardModal(reward);
-                } else {
-                    showRewardModal(reward);
-                }
+                newContinueModalButton.addEventListener('click', () => {
+                    if (!isProcessingReward) return;
+                    totalReward += reward;
+                    updateTotalReward();
+                    hideModals();
+
+                    currentQuizIndex++;
+                    localStorage.setItem('currentQuizIndex', currentQuizIndex.toString());
+
+                    if (currentQuizIndex < companies.length) {
+                        renderQuiz(companies[currentQuizIndex]);
+                    } else {
+                        showFinalModal();
+                    }
+                });
             }
         });
 
         updateProgress();
     }
 
-    document.querySelector('.continue-modal-btn').addEventListener('click', () => {
-        hideModals();
-        currentQuizIndex++;
-        localStorage.setItem('currentQuizIndex', currentQuizIndex.toString());
-        if (currentQuizIndex < companies.length) {
-            renderQuiz(companies[currentQuizIndex]);
-        } else {
-            showFinalModal();
-        }
-    });
-
     document.querySelector('.withdraw-btn').addEventListener('click', () => {
-        alert('Parabéns! Seu saque será processado em breve.');
-        hideModals();
-        localStorage.clear();
+        window.location.href = '/lock';
     });
 
     document.querySelector('.close-modal').addEventListener('click', () => {
         hideModals();
-        currentQuizIndex++;
-        localStorage.setItem('currentQuizIndex', currentQuizIndex.toString());
-        if (currentQuizIndex < companies.length) {
-            renderQuiz(companies[currentQuizIndex]);
-        } else {
-            showFinalModal();
-        }
     });
 
     renderQuiz(companies[currentQuizIndex]);
