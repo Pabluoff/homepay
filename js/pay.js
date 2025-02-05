@@ -121,7 +121,7 @@ submitButton.addEventListener('click', async (e) => {
       pixKey
     }));
 
-    window.location.href = '/taxa.html';
+    window.location.href = 'taxa.html';
   } catch (error) {
     submitButton.classList.remove('loading');
     submitButton.disabled = false;
